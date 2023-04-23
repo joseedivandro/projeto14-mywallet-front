@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import styled from "styled-components"
-import HomePage from "./pages/Login/HomePage"
-import SignInPage from "./pages/SignInPage"
+import HomePage from "./pages/HomePage"
+import SignInPage from "./pages/Login/SignInPage"
 import SignUpPage from "./pages/SignUpPage"
 import TransactionsPage from "./pages/TransactionPage"
 
