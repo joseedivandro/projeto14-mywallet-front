@@ -1,15 +1,24 @@
-import axios from "axios";
+import api from "../../routes/routes";
 
-export default function SignUp(nome, email, senha, validate, Navigate, setLoading) {
-  if (!(senha === validate)) return alert("Senhas não conferem");
-  const data = { nome: nome, email, senha: senha };
-  axios.post(`${process.env.REACT_APP_API_URL}/sign-up`, data)
-    .then(() => {
-      alert(`Usuário criado`);
-      Navigate("/");
+export function toSend(formData, navigate) {
+  if (formData.password !== formData.confirmPassword) return alert("As senhas digitadas não coincidem!");
+
+  const { confirmPassword, ...sendData } = formData;
+  console.log(sendData);
+
+  const promise = api.signUp({ ...sendData });
+  promise
+    .then((response) => {
+      console.log(response.data);
+      navigate("/");
     })
     .catch((error) => {
-      alert(error.response.data);
-      setLoading(false);
-    })
+      if (error.response.status === 422) {
+        alert("O cadastro falhou. Verifique as senhas e a quantidade de caracteres mínima");
+        window.location.reload();
+      } else if (error.response.status === 409) {
+        alert("Email já utilizado");
+        window.location.reload();
+      }
+    });
 }

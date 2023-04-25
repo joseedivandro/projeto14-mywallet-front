@@ -1,37 +1,83 @@
-import { Link, useNavigate } from "react-router-dom"
-import styled from "styled-components"
-import MyWalletLogo from "../../components/MyWalletLogo"
+import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import styled from "styled-components";
+import MyWalletLogo from "../../components/MyWalletLogo";
+import { toSend } from "./SignUp";
 import { ThreeDots } from "react-loader-spinner";
-import SignUp from "./SignUp";
+
 
 export default function SignUpPage() {
-  const Navigate = useNavigate();
-  const [ nome, setNome ] = useState();
-  const [ email, setEmail ] = useState();
-  const [ senha, setSenha ] = useState();
-  const [ validate, setValidate ] = useState();
+  const [formData, setFormData] = useState({ name: "", email: "", password: "", confirmPassword: "" });
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
+  const [isButtonClicked, setIsButtonClicked] = useState(false);
+  const [submitError, setSubmitError] = useState(false);
+  const [showLoading, setShowLoading] = useState(false);
 
-  function handleSignUp(e) {
+  function handleLogin(e) {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  }
+
+  function handleFormSubmit(e) {
     e.preventDefault();
-    setLoading(true);
-    SignUp(nome, email, senha, validate, Navigate, setLoading);
+    setIsButtonClicked(true);
+
+    if (e.target.checkValidity()) {
+      setLoading(true);
+      toSend(formData, navigate, setSubmitError, setLoading)
+        .then(() => {
+          setShowLoading(true);
+        })
+        .catch(() => {
+          setShowLoading(false);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   }
 
   return (
     <SingUpContainer>
-      <form onSubmit={handleSignUp}>
+      <form onSubmit={handleFormSubmit}>
         <MyWalletLogo />
-        <input placeholder="Nome" type="text" value={nome} onChange={(e) => setNome(e.target.value)} />
-        <input placeholder="E-mail" type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
-        <input placeholder="Senha" type="password" autoComplete="new-password" value={senha} onChange={(e) => setSenha(e.target.value)} />
-        <input placeholder="Confirme a senha" type="password" autoComplete="new-password" value={validate} onChange={(e) => setValidate(e.target.value)} />
+        <input placeholder="Nome" type="text" name="name" onChange={handleLogin} value={formData.name} required />
+
+        <input
+          placeholder="E-mail"
+          type="email"
+          name="email"
+          onChange={handleLogin}
+          value={formData.email}
+          pattern="^\w+([.-]?\w+)@\w+([.-]?\w+)(\.\w{2,})+$"
+          title="Precisa ser um email valido. Exemplo (nome@dominio.com)"
+          required
+        />
+
+        <input
+          placeholder="Senha"
+          type="password"
+          name="password"
+          autoComplete="new-password"
+          onChange={handleLogin}
+          value={formData.password}
+          required
+        />
+
+        <input
+          placeholder="Confirme a senha"
+          type="password"
+          name="confirmPassword"
+          onChange={handleLogin}
+          value={formData.confirmPassword}
+          required
+        />
 
         <button type="submit" disabled={loading}>
-          {loading ? (
+          {loading && isButtonClicked && !showLoading ? (
             <ThreeDots
-              marginBottom="20px"
+              margin-bottom="20px"
               height="30"
               width="60"
               radius="12"
@@ -44,14 +90,14 @@ export default function SignUpPage() {
           ) : (
             "Cadastrar"
           )}
-        </button> 
+        </button>
+        {submitError && <p>Erro ao enviar o formulário. Tente novamente mais tarde.</p>}
+      
       </form>
 
-      <Link to={"/"} disabled={loading}>
-        Já tem uma conta? Entre agora!
-      </Link>
+      <Link to="/">Já tem uma conta? Entre agora!</Link>
     </SingUpContainer>
-  )
+  );
 }
 
 const SingUpContainer = styled.section`
@@ -60,4 +106,16 @@ const SingUpContainer = styled.section`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-`
+
+
+  button{
+    cursor: pointer !important;
+    transition: background-color 2s;
+  }
+
+  button:hover{
+    background-color: black !important;
+  }
+
+`;
+

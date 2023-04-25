@@ -1,17 +1,28 @@
-import axios from "axios";
+import api from "../../routes/routes";
 
-export function SignIn(email, senha, Navigator, setLoading) {
 
-  const body = { email: email, senha: senha };
-  axios.post(`${process.env.REACT_APP_API_URL}/sign-in`, body)
-    .then((response) => {
-      localStorage.setItem("token", response.data.token);
-      Navigator("/home");
-    })
-    .catch((error) => {
-      alert(error.response.data)
-    })
-    .finally(() => {
-      setLoading(false);
-    });
+export function toSend(e, formData, setUser, navigate) {
+  e.preventDefault();
+
+  const promise = api.signIn({ ...formData });
+  promise.then((response) => {
+    console.log(response.data);
+    const { idUser, token, name } = response.data;
+    setUser({ idUser, token, name });
+    localStorage.setItem("user", JSON.stringify({ idUser, token, name }));
+    navigate("/home");
+  });
+
+  promise.catch((error) => {
+    if (error.response.status === 404) {
+      alert("Email não cadastrado");
+      window.location.reload();
+    } else if (error.response.status === 401) {
+      alert("Senha incorreta");
+      window.location.reload();
+    } else if (error.response.status === 422) {
+      alert("Aconteceu algo errado, tenta novamente mais tarde");
+      window.location.reload();
+    }
+  });
 }

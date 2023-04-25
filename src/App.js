@@ -1,20 +1,25 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
-import styled from "styled-components"
-import HomePage from "./pages/HomePage"
-import SignInPage from "./pages/Login/SignInPage"
-import SignUpPage from "./pages/SignUp/SignUpPage"
-import TransactionsPage from "./pages/TransactionPage"
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import styled from "styled-components";
+import HomePage from "./pages/Home/HomePage";
+import SignInPage from "../src/pages/Login/SignInPage";
+import SignUpPage from "../src/pages/SignUp/SignUpPage";
+import TransactionsPage from "./pages/Transaction/TransactionPage";
+import UserProvider from "./Context/UserContext";
 
 export default function App() {
+
   return (
     <PagesContainer>
+      
       <BrowserRouter>
+      <UserProvider>
         <Routes>
           <Route path="/" element={<SignInPage />} />
           <Route path="/cadastro" element={<SignUpPage />} />
           <Route path="/home" element={<HomePage />} />
-          <Route path="/nova-transacao/:tipo" element={<TransactionsPage />} />
+          <Route path="/transactions/:type" element={<TransactionsPage />} />
         </Routes>
+        </UserProvider>
       </BrowserRouter>
     </PagesContainer>
   )
