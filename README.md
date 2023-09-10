@@ -10,3 +10,14 @@ O MyWallet é uma aplicação de carteira digital que permite que você acompanh
 **Histórico de Transações:** Acesse um histórico completo de suas transações anteriores para uma análise detalhada.
 
 **Saldo disponível:** é possível visualizar o saldo disponível em sua conta de maneira intuitiva, seja ele positivo ou negativo.
+
+
+## Tecnologias Utilizadas
+
+O MyWallet foi desenvolvido utilizando as seguintes tecnologias e ferramentas:
+
+- **Node.js:** O backend da aplicação foi construído com Node.js, uma plataforma JavaScript que permite a execução de código JavaScript no servidor.
+
+- **React:** A interface do usuário do MyWallet foi desenvolvida usando o framework React, que oferece uma maneira eficiente e reativa de criar interfaces de usuário.
+
+- **MongoDB:** O MyWallet utiliza o MongoDB como banco de dados para armazenar as informações das transações, proporcionando flexibilidade e escalabilidade.
