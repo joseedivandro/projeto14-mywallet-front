@@ -28,7 +28,7 @@ O MyWallet foi desenvolvido utilizando as seguintes tecnologias e ferramentas:
 
 ## Como Iniciar
 
-**Clone o Repositório*:** Clone este repositório para sua máquina local usando o seguinte comando:
+**Clone o Repositório:** Clone este repositório para sua máquina local usando o seguinte comando:
 git clone https://github.com/joseedivandro/projeto14-mywallet-front.git
 
 **Instale as Dependências:** Certifique-se de ter todas as dependências instaladas. Você pode instalá-las executando o seguinte comando no diretório do projeto:
