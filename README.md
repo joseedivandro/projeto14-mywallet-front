@@ -43,4 +43,4 @@ npm start
 http://localhost:3000
 
 ### Deploy: 
-dispinível [Aqui](https://projeto14-mywallet-front-silk-six.vercel.app,  "Deploy MyWallet")
+dispinível [Aqui](https://projeto14-mywallet-front-silk-six.vercel.app")
