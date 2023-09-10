@@ -8,7 +8,6 @@ export default function UserProvider({children}){
     const [user, setUser]= useState(lsUser !== null ? lsUser : {});
     const navigate = useNavigate();
     const currentUrl = window.location.href;
-    console.log(lsUser)
     useEffect(() => {
         if (lsUser === null & (currentUrl !== '/login' && currentUrl !== '/registro')){
             navigate("/")

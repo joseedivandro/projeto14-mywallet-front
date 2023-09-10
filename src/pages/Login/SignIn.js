@@ -1,4 +1,5 @@
 import api from "../../routes/routes";
+import { HttpStatusCode } from "axios";
 
 
 export function toSend(e, formData, setUser, navigate) {
@@ -14,13 +15,13 @@ export function toSend(e, formData, setUser, navigate) {
   });
 
   promise.catch((error) => {
-    if (error.response.status === 404) {
+    if (error.response.status === HttpStatusCode.NotFound) {
       alert("Email não cadastrado");
       window.location.reload();
-    } else if (error.response.status === 401) {
+    } else if (error.response.status === HttpStatusCode.Unauthorized) {
       alert("Senha incorreta");
       window.location.reload();
-    } else if (error.response.status === 422) {
+    } else if (error.response.status === HttpStatusCode.UnprocessableEntity) {
       alert("Aconteceu algo errado, tenta novamente mais tarde");
       window.location.reload();
     }

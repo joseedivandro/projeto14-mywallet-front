@@ -63,6 +63,7 @@ export default function SignUpPage() {
           onChange={handleLogin}
           value={formData.password}
           required
+          minLength={3}
         />
 
         <input

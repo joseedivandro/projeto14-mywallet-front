@@ -1,3 +1,4 @@
+import { HttpStatusCode } from "axios";
 import api from "../../routes/routes";
 
 export function handleTransactionSubmit(navigate, user, formData, setLoading, setType) {
@@ -5,16 +6,14 @@ export function handleTransactionSubmit(navigate, user, formData, setLoading, se
   const body = { ...formData, value: valueNumber };
   const promise = api.createTransaction(user.token, body, setType);
   
-  promise.then((response) => {
-    console.log(response.data);
+  promise.then(() => {
     setLoading(false);
     navigate("/home");
   });
 
   promise.catch((err) => {
-    console.log(err.response.data.message);
     setLoading(false);
-    if (err.response.status === 422) {
+    if (err.response.status === HttpStatusCode.UnprocessableEntity) {
       alert('Verifique se os dados  (Valor precisa ser um número)');
     } else {
       alert('Aconteceu algo de errado, tente novamente mais tarde');
